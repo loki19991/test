@@ -28,6 +28,4 @@ public class ErrorResponse implements Serializable {
 
   @JsonProperty("errorMessage")
   private String errorMessage = null;
-
 }
-

@@ -27,8 +27,7 @@ public class SwaggerConfig {
 
     return new Docket(DocumentationType.SWAGGER_2)
         .apiInfo(apiInfo())
-        .securitySchemes(
-            Collections.singletonList(securityScheme()))
+        .securitySchemes(Collections.singletonList(securityScheme()))
         .select()
         .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
         .paths(PathSelectors.any())
@@ -43,17 +42,21 @@ public class SwaggerConfig {
         .version("1.0")
         .build();
   }
+
   private AuthorizationScope[] scopes() {
     AuthorizationScope[] scopes = {
-            new AuthorizationScope("read:profile", "for read operations"),
-            new AuthorizationScope("write:profile ", "for write operations")
+      new AuthorizationScope("read:profile", "for read operations"),
+      new AuthorizationScope("write:profile ", "for write operations")
     };
     return scopes;
   }
+
   private SecurityScheme securityScheme() {
     GrantType grantType = new ClientCredentialsGrant("http://localhost:8080" + "/oauth/token");
 
-    SecurityScheme oauth = new OAuthBuilder().name("profile_auth")
+    SecurityScheme oauth =
+        new OAuthBuilder()
+            .name("profile_auth")
             .grantTypes(Arrays.asList(grantType))
             .scopes(Arrays.asList(scopes()))
             .build();

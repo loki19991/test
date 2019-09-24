@@ -20,38 +20,34 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @Api(tags = {"Profile"})
 @RequestMapping("/api/v1")
-public class UserProfileController implements ProfileApi{
+public class UserProfileController implements ProfileApi {
 
-    private final HttpServletRequest request;
+  private final HttpServletRequest request;
 
-    @Autowired
-    public UserProfileController(HttpServletRequest request) {
-        this.request = request;
-    }
+  @Autowired
+  public UserProfileController(HttpServletRequest request) {
+    this.request = request;
+  }
 
-    @Autowired
-    UserProfileService userProfileService;
+  @Autowired UserProfileService userProfileService;
 
-    public ResponseEntity<SuccessfulResponse> addUser(@Valid @RequestBody User user) {
-        return userProfileService.createUserProfile(user);
-    }
+  public ResponseEntity<SuccessfulResponse> addUser(@Valid @RequestBody User user) {
+    return userProfileService.createUserProfile(user);
+  }
 
-    public ResponseEntity<Void> deleteUser(
-            @ApiParam(value = "user id", required = true)
-            @PathVariable("id") Long userId) {
-        return userProfileService.deleteUserProfile(userId);
-    }
+  public ResponseEntity<Void> deleteUser(
+      @ApiParam(value = "user id", required = true) @PathVariable("id") Long userId) {
+    return userProfileService.deleteUserProfile(userId);
+  }
 
-    public ResponseEntity<Profile> getUserProfile(
-            @ApiParam(value = "user id", required = true)
-            @PathVariable("id") Long userId) {
-        return userProfileService.getUserProfile(userId);
-    }
+  public ResponseEntity<Profile> getUserProfile(
+      @ApiParam(value = "user id", required = true) @PathVariable("id") Long userId) {
+    return userProfileService.getUserProfile(userId);
+  }
 
-    public ResponseEntity<Void> updateProfile(
-            @ApiParam(value = "user id", required = true)
-            @PathVariable("id") Long userId,
-            @Valid @RequestBody Profile profile) {
-        return userProfileService.updateUserProfile(userId, profile);
-    }
+  public ResponseEntity<Void> updateProfile(
+      @ApiParam(value = "user id", required = true) @PathVariable("id") Long userId,
+      @Valid @RequestBody Profile profile) {
+    return userProfileService.updateUserProfile(userId, profile);
+  }
 }

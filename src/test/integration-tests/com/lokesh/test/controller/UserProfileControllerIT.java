@@ -1,8 +1,8 @@
-package com.lokesh.test.it.controller;
+package com.lokesh.test.controller;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.restassured.http.ContentType;
-import com.lokesh.test.it.BaseIT;
+import com.lokesh.test.BaseIT;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import org.junit.Before;
@@ -38,6 +38,7 @@ public class UserProfileControllerIT extends BaseIT {
     testGetUserProfile();
     testUpdateUserProfile();
     testDeleteUser();
+    testCreateUserForBadRequest();
   }
 
   public void testCreateUser() throws Exception {
@@ -94,6 +95,17 @@ public class UserProfileControllerIT extends BaseIT {
       .get("/api/v1/users/1/profile")
       .then()
       .statusCode(HttpStatus.NOT_FOUND.value());
+  }
+
+  public void testCreateUserForBadRequest() {
+    given()
+            .contentType(ContentType.JSON)
+            .body( loadJsonFile("bad-user-object.json"))
+            .header("Authorization", "Bearer " + accessToken)
+            .when()
+            .post("/api/v1/users")
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value());
   }
 
 

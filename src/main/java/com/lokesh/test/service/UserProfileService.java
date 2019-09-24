@@ -16,40 +16,40 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserProfileService {
 
-    @Autowired UserRepository userRepository;
+  @Autowired UserRepository userRepository;
 
-    public ResponseEntity<SuccessfulResponse> createUserProfile(User user) {
-        userRepository.save(user);
-        SuccessfulResponse successfulResponse = new SuccessfulResponse();
-        successfulResponse.setStatusCode(HttpStatus.CREATED.value());
-        successfulResponse.setDescription("User object successfully created");
-        return new ResponseEntity<>(successfulResponse, HttpStatus.CREATED);
+  public ResponseEntity<SuccessfulResponse> createUserProfile(User user) {
+    userRepository.save(user);
+    SuccessfulResponse successfulResponse = new SuccessfulResponse();
+    successfulResponse.setStatusCode(HttpStatus.CREATED.value());
+    successfulResponse.setDescription("User object successfully created");
+    return new ResponseEntity<>(successfulResponse, HttpStatus.CREATED);
+  }
+
+  public ResponseEntity<Profile> getUserProfile(Long userId) {
+    User user = findUserById(userId);
+    return new ResponseEntity<>(user.getProfile(), HttpStatus.OK);
+  }
+
+  public ResponseEntity updateUserProfile(Long userId, Profile profile) {
+    User user = findUserById(userId);
+    user.setProfile(profile);
+    userRepository.save(user);
+    return new ResponseEntity(HttpStatus.NO_CONTENT);
+  }
+
+  public ResponseEntity deleteUserProfile(Long userId) {
+    userRepository.deleteById(userId);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  private User findUserById(Long userId) {
+    Optional<User> user = userRepository.findById(userId);
+    if (user.isPresent()) {
+      return user.get();
     }
 
-    public ResponseEntity<Profile> getUserProfile(Long userId) {
-        User user = findUserById(userId);
-        return new ResponseEntity<>(user.getProfile(), HttpStatus.OK);
-    }
-
-    public ResponseEntity updateUserProfile(Long userId, Profile profile) {
-        User user = findUserById(userId);
-        user.setProfile(profile);
-        userRepository.save(user);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity deleteUserProfile(Long userId) {
-        userRepository.deleteById(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private User findUserById(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            return user.get();
-        }
-
-        log.error("User not found exception userId={}", userId);
-        throw new UserNotFoundException("User not found exception");
-    }
+    log.error("User not found exception userId={}", userId);
+    throw new UserNotFoundException("User not found exception");
+  }
 }

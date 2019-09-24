@@ -22,4 +22,3 @@ public class SuccessfulResponse implements Serializable {
   @JsonProperty("description")
   private String description = null;
 }
-

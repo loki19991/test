@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,58 +37,69 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 @Setter
 @Validated
 public class Address implements Serializable {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
+  public enum AddressTypeEnum {
+    WORK("WORK"),
+    PERSONAL("PERSONAL");
 
-    public enum AddressTypeEnum {
+    private String value;
 
-        WORK("WORK"), PERSONAL("PERSONAL");
-
-        private String value;
-
-        AddressTypeEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static AddressTypeEnum fromValue(String text) {
-            for (AddressTypeEnum b : AddressTypeEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
+    AddressTypeEnum(String value) {
+      this.value = value;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
-    @JsonProperty(access = READ_ONLY)
-    private long addressId;
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private AddressTypeEnum type = AddressTypeEnum.PERSONAL;
+    @JsonCreator
+    public static AddressTypeEnum fromValue(String text) {
+      for (AddressTypeEnum b : AddressTypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
 
-    @Column(name = "street_address")
-    private String streetAddress = null;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "address_id")
+  @JsonProperty(access = READ_ONLY)
+  private long addressId;
 
-    @Column(name = "suburb")
-    private String suburb = null;
+  @Column(name = "type")
+  @Enumerated(EnumType.STRING)
+  @ApiModelProperty(required = true)
+  @NotNull
+  private AddressTypeEnum type = null;
 
-    @Column(name = "state")
-    private String state = null;
+  @Column(name = "street_address")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String streetAddress = null;
 
-    @Column(name = "country")
-    private String country = null;
+  @Column(name = "suburb")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String suburb = null;
 
-    @Column(name = "email_address")
-    private String emailAddress = null;
+  @Column(name = "state")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String state = null;
+
+  @Column(name = "country")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String country = null;
+
+  @Column(name = "email_address")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String emailAddress = null;
 }

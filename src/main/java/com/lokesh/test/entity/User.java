@@ -2,6 +2,7 @@ package com.lokesh.test.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,13 +32,14 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 @Setter
 @Validated
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    @JsonProperty(access = READ_ONLY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
+  @JsonProperty(access = READ_ONLY)
+  private long id;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "user_profile_id")
-    private Profile profile;
+  @OneToOne(cascade = CascadeType.ALL, optional = false)
+  @JoinColumn(name = "user_profile_id")
+  @ApiModelProperty(required = true)
+  private Profile profile;
 }

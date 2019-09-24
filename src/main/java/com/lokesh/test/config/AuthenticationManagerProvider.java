@@ -16,32 +16,33 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class AuthenticationManagerProvider extends WebSecurityConfigurerAdapter {
-    private static List<String> SKIP_PATHS =
-            Arrays.asList("/console/**", "/webjars/**", "/swagger**", "/swagger-resources/**", "/v2/api-docs");
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  private static List<String> SKIP_PATHS =
+      Arrays.asList(
+          "/console/**", "/webjars/**", "/swagger**", "/swagger-resources/**", "/v2/api-docs");
 
-    @Bean
-    public FilterRegistrationBean loggingFilterRegistrationBean() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setUrlPatterns(Arrays.asList("/*"));
-        registrationBean.setName("Logging Filter");
-        registrationBean.setFilter(new RequestLoggingFilterConfig().loggingFilter());
-        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return registrationBean;
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        http.headers().frameOptions().disable().and().csrf().disable();
-    }
+  @Bean
+  public FilterRegistrationBean loggingFilterRegistrationBean() {
+    FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+    registrationBean.setUrlPatterns(Arrays.asList("/*"));
+    registrationBean.setName("Logging Filter");
+    registrationBean.setFilter(new RequestLoggingFilterConfig().loggingFilter());
+    registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    return registrationBean;
+  }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-            .antMatchers(String.valueOf(SKIP_PATHS));
-    }
+  @Override
+  protected void configure(final HttpSecurity http) throws Exception {
+    http.headers().frameOptions().disable().and().csrf().disable();
+  }
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers(String.valueOf(SKIP_PATHS));
+  }
 }

@@ -3,6 +3,7 @@ package com.lokesh.test.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,25 +37,31 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 @Validated
 public class Profile implements Serializable {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
-    @JsonProperty(access = READ_ONLY)
-    private long profileId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "profile_id")
+  @JsonProperty(access = READ_ONLY)
+  private long profileId;
 
-    @Column(name = "first_name")
-    private String firstName = null;
+  @Column(name = "first_name")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String firstName = null;
 
-    @Column(name = "last_name")
-    private String lastName = null;
+  @Column(name = "last_name")
+  @ApiModelProperty(required = true)
+  @NotNull
+  private String lastName = null;
 
-    @Column(name = "date_of_birth")
-    @JsonFormat(pattern  =  "yyyy-MM-dd")
-    private LocalDate dateOfBirth = null;
+  @Column(name = "date_of_birth")
+  @ApiModelProperty(required = true)
+  @NotNull
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dateOfBirth = null;
 
-    @OneToMany(cascade  =  ALL, orphanRemoval = true)
-    @JoinColumn(name = "profile_address_id")
-    private List<Address> addressList = new ArrayList<>();
+  @OneToMany(cascade = ALL, orphanRemoval = true)
+  @JoinColumn(name = "profile_address_id")
+  private List<Address> addressList = new ArrayList<>();
 }

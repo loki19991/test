@@ -16,40 +16,46 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @EnableAuthorizationServer
 public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${authServer-sample-client.clientId}")
-    private String clientId;
+  @Value("${authServer-sample-client.clientId}")
+  private String clientId;
 
-    @Value("${authServer-sample-client.clientSecret}")
-    private String clientSecret;
+  @Value("${authServer-sample-client.clientSecret}")
+  private String clientSecret;
 
-    @Value("${authServer-sample-client.scope}")
-    private String[] scopes;
+  @Value("${authServer-sample-client.scope}")
+  private String[] scopes;
 
-    @Qualifier("authenticationManagerBean")
-    @Autowired
-    private AuthenticationManager authenticationManager;
+  @Qualifier("authenticationManagerBean")
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-    private static String GRANT_TYPE = "client_credentials";
+  private static String GRANT_TYPE = "client_credentials";
 
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager);
-    }
+  @Override
+  public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    endpoints.authenticationManager(authenticationManager);
+  }
 
-    /*
-        For test purpose, I hard coded with below client details
-        It;s a simple auth server
-     */
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient(clientId).secret(clientSecret)
-                .authorizedGrantTypes(GRANT_TYPE).scopes(scopes);
-    }
+  /*
+     For test purpose, I hard coded with below client details
+     It;s a simple auth server
+  */
+  @Override
+  public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+    clients
+        .inMemory()
+        .withClient(clientId)
+        .secret(clientSecret)
+        .authorizedGrantTypes(GRANT_TYPE)
+        .scopes(scopes);
+  }
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer securityConfigurer) {
-        securityConfigurer.passwordEncoder(NoOpPasswordEncoder.getInstance())
-            .tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
-                .allowFormAuthenticationForClients();
-    }
+  @Override
+  public void configure(AuthorizationServerSecurityConfigurer securityConfigurer) {
+    securityConfigurer
+        .passwordEncoder(NoOpPasswordEncoder.getInstance())
+        .tokenKeyAccess("permitAll()")
+        .checkTokenAccess("isAuthenticated()")
+        .allowFormAuthenticationForClients();
+  }
 }
