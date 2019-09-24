@@ -1,0 +1,17 @@
+spring:
+  profiles.active: local, h2
+authServer-sample-client:
+  clientId: lR9kYCOVzMa4iTuMPIsF9ePmtz8a
+  clientSecret: 08oKwEJckE3D7HNxy3f9W0B6XL8a
+  scope: read:profile, write:profile
+---
+spring:
+  profiles: h2
+  jpa:
+   database-platform: "org.hibernate.dialect.MySQL5Dialect"
+   show-sql: true
+  datasource:
+   url: "jdbc:h2:mem:users_db;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE"
+  h2.console:
+   enabled: true
+   path: /console

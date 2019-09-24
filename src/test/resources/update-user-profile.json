@@ -1,0 +1,17 @@
+{
+  "addressList": [
+    {
+      "addressId": 1,
+      "country": "string",
+      "emailAddress": "string",
+      "state": "string",
+      "streetAddress": "string",
+      "suburb": "string",
+      "type": "PERSONAL"
+    }
+  ],
+  "dateOfBirth": "1991-04-16",
+  "firstName": "string",
+  "lastName": "string",
+  "profileId": 1
+}

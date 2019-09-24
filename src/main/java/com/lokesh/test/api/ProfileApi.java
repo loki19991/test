@@ -1,12 +1,12 @@
 /**
  * NOTE: This class is used for Swagger API  documentation
  */
-package com.api;
+package com.lokesh.test.api;
 
-import com.entity.Profile;
-import com.entity.User;
-import com.model.ErrorResponse;
-import com.model.SuccessfulResponse;
+import com.lokesh.test.entity.Profile;
+import com.lokesh.test.entity.User;
+import com.lokesh.test.model.ErrorResponse;
+import com.lokesh.test.model.SuccessfulResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -53,7 +53,7 @@ public interface ProfileApi {
         @ApiResponse(code = 400, message = "Bad request", response = ErrorResponse.class),
         @ApiResponse(code = 404, message = "User account not exists", response = ErrorResponse.class),
         @ApiResponse(code = 500, message = "Internal Server Exception occured", response = ErrorResponse.class) })
-    @RequestMapping(value = "/users",
+    @RequestMapping(value = "/users/{id}",
         produces = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteUser(@ApiParam(value = "", required = true)
